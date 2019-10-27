@@ -90,7 +90,15 @@
 /* menu btn */
 
 .header .menu-btn {
-  display: none;
+  opacity: 0;
+  // display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 55px;
+  height: 55px;
+  z-index: 5;
+  cursor: pointer;
 }
 
 .header .menu-btn:checked ~ .menu {
