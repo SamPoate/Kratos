@@ -1,0 +1,43 @@
+.table {
+  width: 100%;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  &-container {
+    max-width: 1024px;
+    margin: 0 auto;
+
+    .row {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #696969;
+
+      &.title-row {
+        font-weight: 500;
+        background: #dcdcdc;
+      }
+
+      .cell {
+        font-size: 10px;
+        width: 10%;
+        line-height: 1.2;
+
+        &:first-of-type {
+          padding-left: 5px;
+        }
+
+        &:first-of-type,
+        &:nth-last-of-type(2) {
+          width: 22.5%;
+        }
+
+        &:last-of-type {
+          width: 15%;
+        }
+      }
+    }
+  }
+}

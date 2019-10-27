@@ -19,6 +19,13 @@
   padding: 20px 20px;
   border-right: 1px solid #f4f4f4;
   text-decoration: none;
+
+  @include tablet {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 0 20px;
+  }
 }
 
 .header a img {
@@ -91,7 +98,6 @@
 
 .header .menu-btn {
   opacity: 0;
-  // display: none;
   position: absolute;
   right: 0;
   top: 0;
@@ -136,7 +142,8 @@
     float: right;
     max-height: none;
   }
-  .header .menu-icon {
+  .header .menu-icon,
+  .header .menu-btn {
     display: none;
   }
 }

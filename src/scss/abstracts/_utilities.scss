@@ -7,3 +7,31 @@ h2,
 h3 {
   font-weight: 500;
 }
+
+input {
+  font-family: 'Montserrat', sans-serif;
+}
+
+button {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: $primaryColor;
+  cursor: pointer;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+
+  &:active {
+    color: #fff;
+    background: $secondaryColor;
+  }
+}
+
+.container {
+  // background: $primaryBackgroundColor;
+  padding: 70px 20px 10px;
+
+  @include mobile {
+    padding: 70px 5px 10px;
+  }
+}

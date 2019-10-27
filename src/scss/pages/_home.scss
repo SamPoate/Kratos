@@ -1,9 +1,16 @@
 .home {
-  width: 100vw;
-  height: 100vh;
-  background: $primaryBackgroundColor;
-
   h1 {
     color: $primaryFontColor;
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+
+    img {
+      width: 80vw;
+    }
   }
 }
