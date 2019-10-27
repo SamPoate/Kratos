@@ -1,0 +1,30 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style: none;
+  border: none;
+
+  *:focus {
+    outline: none;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  line-height: 1;
+  scrollbar-width: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
