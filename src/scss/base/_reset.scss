@@ -32,3 +32,22 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+input {
+  outline-style: none;
+  box-shadow: none;
+  border-color: transparent;
+
+  &:focus {
+    outline: none;
+    background: none;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition: 'color 9999s ease-out, background-color 9999s ease-out';
+  -webkit-transition-delay: 9999s;
+}

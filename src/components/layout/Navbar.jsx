@@ -1,7 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = props => {
   return (
     <nav className='header'>
       <Link className='logo' to='/'>
@@ -16,18 +17,30 @@ const Navbar = () => {
         <li>
           <Link to='/'>Home</Link>
         </li>
-        <li>
-          <Link to='/workout'>Workout Plan</Link>
-        </li>
-        <li>
-          <Link to='/profile'>Profile</Link>
-        </li>
-        <li>
-          <Link to='/'>Login</Link>
-        </li>
+        {props.authenticated ? (
+          <>
+            <li>
+              <Link to='/workout'>Workout Plan</Link>
+            </li>
+            <li>
+              <Link to='/profile'>Profile</Link>
+            </li>
+            <li>
+              <Link to='/logout'>Logout</Link>
+            </li>
+          </>
+        ) : (
+          <li>
+            <Link to='/login'>Login</Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
 };
 
-export default Navbar;
+const mapStateToProps = state => ({
+  authenticated: state.firebase.auth.uid
+});
+
+export default connect(mapStateToProps)(Navbar);

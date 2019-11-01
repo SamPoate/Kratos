@@ -5,9 +5,14 @@
 @import 'abstracts/mixins';
 @import 'abstracts/utilities';
 
+@import 'components/buttons';
+@import 'components/forms';
+
 @import 'layout/navbar';
 @import 'layout/radial-menu';
+@import 'layout/loading';
 
 @import 'pages/home';
 @import 'pages/workout-table';
 @import 'pages/profile';
+@import 'pages/auth';
