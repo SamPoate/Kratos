@@ -28,7 +28,7 @@ const Profile = props => {
 
   return (
     <main id='profile'>
-      <h1>Profile</h1>
+      <h1>{props.profile.isLoaded ? `${props.email}'s ` : null}Profile</h1>
       {props.profile.isLoaded ? (
         <div className='form'>
           <div className='form-input'>
@@ -68,7 +68,8 @@ const Profile = props => {
 };
 
 const mapStateToProps = state => ({
-  profile: state.firebase.profile
+  profile: state.firebase.profile,
+  email: state.firebase.auth.email
 });
 
 export default compose(
