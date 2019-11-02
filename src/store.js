@@ -6,6 +6,7 @@ import rootReducer from './redux/reducers/rootReducer';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/functions';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -18,11 +19,10 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
-console.log();
-
 // Initialize firebase instance
 firebase.initializeApp(firebaseConfig);
 firebase.firestore();
+firebase.functions();
 
 // react-redux-firebase config
 const rrfConfig = {

@@ -1,32 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const RadialMenu = ({ setDay }) => {
+  const [openMenu, setOpenMenu] = useState(false);
+
   return (
     <>
-      <ul id='menu'>
-        {/* eslint-disable-next-line */}
-        <a
-          className='menu-button icon-plus'
-          href='#menu'
-          title='Show navigation'
-        >
-          +
-        </a>
-        {/* eslint-disable-next-line */}
-        <a className='menu-button icon-minus' href='#0' title='Hide navigation'>
-          -
-        </a>
+      <ul id='menu' className={`${openMenu ? 'open' : ''}`}>
+        {!openMenu ? (
+          <div
+            className='menu-button icon-plus'
+            onClick={() => setOpenMenu(!openMenu)}
+          >
+            +
+          </div>
+        ) : (
+          <div
+            className='menu-button icon-minus'
+            onClick={() => setOpenMenu(!openMenu)}
+          >
+            -
+          </div>
+        )}
         <li onClick={() => setDay(1)} className='menu-item'>
-          <a href='#menu'>D1</a>
+          <div>D1</div>
         </li>
         <li onClick={() => setDay(2)} className='menu-item'>
-          <a href='#menu'>D2</a>
+          <div>D2</div>
         </li>
         <li onClick={() => setDay(3)} className='menu-item'>
-          <a href='#menu'>D3</a>
+          <div>D3</div>
         </li>
         <li onClick={() => setDay(4)} className='menu-item'>
-          <a href='#menu'>D4</a>
+          <div>D4</div>
         </li>
       </ul>
     </>

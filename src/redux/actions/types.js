@@ -1,1 +1,1 @@
-export const SET_DREKELS = 'SET_DREKELS';
+export const UPDATE_MAX_REPS = 'UPDATE_MAX_REPS';

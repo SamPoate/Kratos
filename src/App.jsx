@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import PrivateRoute from './helpers/authCheck';
+import PrivateRoute from './helpers/PrivateRoute';
+import AdminRoute from './helpers/AdminRoute';
 
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { Provider } from 'react-redux';
@@ -13,6 +14,7 @@ import Workout from './components/workout/Workout';
 import Profile from './components/profile/Profile';
 import Login from './components/auth/Login';
 import Logout from './components/auth/Logout';
+import AdminArea from './components/admin/AdminArea';
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
                 <Route exact path='/' component={Home} />
                 <PrivateRoute exact path='/workout' component={Workout} />
                 <PrivateRoute exact path='/profile' component={Profile} />
+                <AdminRoute exact path='/admin-area' component={AdminArea} />
                 <PrivateRoute exact path='/logout' component={Logout} />
                 <Route exact path='/login' component={Login} />
               </Switch>

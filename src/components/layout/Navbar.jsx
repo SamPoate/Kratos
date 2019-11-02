@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useFirebase } from 'react-redux-firebase';
 
 const Navbar = props => {
+  const [admin, setAdmin] = useState(false);
+  const firebase = useFirebase();
+
+  const checkAdmin = () => {
+    firebase.auth().onAuthStateChanged(async user => {
+      if (user) {
+        const idTokenResult = await user.getIdTokenResult();
+        setAdmin(
+          idTokenResult.claims.admin ? idTokenResult.claims.admin : false
+        );
+      }
+    });
+  };
+
+  checkAdmin();
+
   return (
     <nav className='header'>
       <Link className='logo' to='/'>
@@ -25,6 +42,11 @@ const Navbar = props => {
             <li>
               <Link to='/profile'>Profile</Link>
             </li>
+            {admin ? (
+              <li>
+                <Link to='/admin-area'>Admin</Link>
+              </li>
+            ) : null}
             <li>
               <Link to='/logout'>Logout</Link>
             </li>
