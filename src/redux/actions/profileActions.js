@@ -1,8 +1,8 @@
-import { UPDATE_MAX_REPS } from './types';
+import { UPDATE_TOTAL_VOLUME } from './types';
 
-export const updateMaxReps = data => dispatch => {
+export const updateTotalVolume = data => dispatch => {
   dispatch({
-    type: UPDATE_MAX_REPS,
+    type: UPDATE_TOTAL_VOLUME,
     payload: data
   });
 };

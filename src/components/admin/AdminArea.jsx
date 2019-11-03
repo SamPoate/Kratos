@@ -22,35 +22,58 @@ const AdminArea = props => {
   };
 
   const handleFile = file => {
-    let key = '';
+    let day = '';
+    let week = '';
     const data = file.reduce((data, row) => {
       if (!row[0]) {
-        return false;
+        return data;
       }
 
       if (row[0].includes('phase')) {
         setPhase(row[0].toUpperCase());
-        return false;
+        return data;
       }
 
-      if (row.includes('sets')) {
-        key = row[0];
-        return { ...data, [key]: [] };
-      } else {
-        return {
+      if (row[0].includes('week')) {
+        week = row[0];
+
+        const a = { ...data, [week]: {} };
+
+        return a;
+      }
+
+      if (row[0].includes('day')) {
+        day = row[0];
+
+        const b = {
           ...data,
-          [key]: [
-            ...data[key],
-            {
-              name: row[0],
-              sets: row[1],
-              reps: row[2],
-              total: row[3],
-              percent: row[4],
-              weight: row[5]
-            }
-          ]
+          [week]: {
+            ...data[week],
+            [day]: []
+          }
         };
+
+        return b;
+      } else {
+        const c = {
+          ...data,
+          [week]: {
+            ...data[week],
+            [day]: [
+              ...data[week][day],
+              {
+                name: row[0],
+                sets: row[1],
+                reps: row[2],
+                total: row[3],
+                percent: row[4],
+                weight: row[5]
+              }
+            ]
+          }
+        };
+
+        return c;
       }
     }, {});
 
@@ -59,7 +82,7 @@ const AdminArea = props => {
 
   const save = () => {
     firestore
-      .collection('WORKOUT_PROGRAM')
+      .collection('WORKOUT_PROGRAMS')
       .doc(phase)
       .set(workoutData)
       .then(() => {
