@@ -20,7 +20,9 @@ const Workout = props => {
         if (user) {
           const idTokenResult = await user.getIdTokenResult();
           setUser(
-            idTokenResult.claims.user ? idTokenResult.claims.user : false
+            idTokenResult.claims.user || idTokenResult.claims.admin
+              ? true
+              : false
           );
         }
       });
