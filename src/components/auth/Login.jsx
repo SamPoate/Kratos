@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useFirebase, isEmpty, isLoaded } from 'react-redux-firebase';
 import Loading from '../layout/Loading';
+import { Link } from 'react-router-dom';
 
 const Login = ({ auth, history }) => {
   const [username, setUsername] = useState('');
@@ -50,6 +51,9 @@ const Login = ({ auth, history }) => {
           </div>
           <button className='btn--white-text' onClick={onLogin}>
             Login
+          </button>
+          <button className='btn--white-text'>
+            <Link to='/register'>Register</Link>
           </button>
         </div>
       ) : null}

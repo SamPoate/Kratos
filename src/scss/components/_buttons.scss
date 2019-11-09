@@ -1,3 +1,17 @@
 .btn--white-text {
   color: white;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.btn--green {
+  background: rgb(0, 187, 0);
+  color: #fff;
+}
+
+.btn--red {
+  background: rgb(136, 0, 0);
+  color: #fff;
 }

@@ -1,16 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase';
+import { useFirestoreConnect, useFirebase } from 'react-redux-firebase';
 
 import RadialMenu from '../layout/RadialMenu';
 import Loading from '../layout/Loading';
 
 const Workout = props => {
+  const [user, setUser] = useState(false);
   const [day, setDay] = useState(1);
   const [week, setWeek] = useState(1);
-  const [phase, setPhase] = useState(1);
+  const [phase, setPhase] = useState(3);
   useFirestoreConnect('WORKOUT_PROGRAMS');
+  const firebase = useFirebase();
+
+  useEffect(() => {
+    const getData = () => {
+      firebase.auth().onAuthStateChanged(async user => {
+        if (user) {
+          const idTokenResult = await user.getIdTokenResult();
+          setUser(
+            idTokenResult.claims.user ? idTokenResult.claims.user : false
+          );
+        }
+      });
+    };
+
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const dict = {
     1: 'one',
@@ -31,25 +49,35 @@ const Workout = props => {
       : props.data[defaultPhase][weekConvert][dayConvert];
   }
 
+  if (user === false) {
+    return <h1>Awaiting Admin Approval</h1>;
+  }
+
   if (props.isLoaded) {
     return (
       <>
         <Table
           data={data}
-          profile={props.profile}
+          profile={
+            props.profile.squat > 0 &&
+            props.profile.bench > 0 &&
+            props.profile.deadLift > 0
+              ? props.profile
+              : { squat: 0, bench: 0, deadLift: 0 }
+          }
           phase={phase}
           week={week}
           day={day}
-          updateTotalVolume={props.updateTotalVolume}
         />
         <RadialMenu setDay={setDay} setWeek={setWeek} setPhase={setPhase} />
       </>
     );
+  } else {
+    return <Loading />;
   }
-  return <Loading />;
 };
 
-const Table = ({ data, profile, phase, week, day, updateTotalVolume }) => {
+const Table = ({ data, profile, phase, week, day }) => {
   const titleRow = [
     'Workout Name',
     'Sets',

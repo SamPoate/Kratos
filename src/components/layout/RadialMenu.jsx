@@ -45,7 +45,7 @@ const RadialMenu = ({ setDay, setWeek, setPhase }) => {
         <li onClick={() => setWeek(4)} className='menu-item'>
           <div>W4</div>
         </li>
-        <li onClick={() => setPhase(1)} className='menu-item'>
+        {/* <li onClick={() => setPhase(1)} className='menu-item'>
           <div>P1</div>
         </li>
         <li onClick={() => setPhase(2)} className='menu-item'>
@@ -53,7 +53,7 @@ const RadialMenu = ({ setDay, setWeek, setPhase }) => {
         </li>
         <li onClick={() => setPhase(3)} className='menu-item'>
           <div>P3</div>
-        </li>
+        </li> */}
       </ul>
     </>
   );

@@ -16,6 +16,7 @@ import Login from './components/auth/Login';
 import Logout from './components/auth/Logout';
 import AdminArea from './components/admin/AdminArea';
 import About from './components/about/About';
+import Register from './components/auth/Register';
 
 function App() {
   return (
@@ -27,12 +28,13 @@ function App() {
             <div className='container'>
               <Switch>
                 <Route exact path='/' component={Home} />
+                <Route exact path='/about' component={About} />
                 <PrivateRoute exact path='/workout' component={Workout} />
                 <PrivateRoute exact path='/profile' component={Profile} />
                 <AdminRoute exact path='/admin-area' component={AdminArea} />
                 <PrivateRoute exact path='/logout' component={Logout} />
                 <Route exact path='/login' component={Login} />
-                <Route exact path='/about' component={About} />
+                <Route exact path='/register' component={Register} />
               </Switch>
             </div>
           </div>

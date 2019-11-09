@@ -30,6 +30,7 @@
 
       &.full-width {
         width: 100%;
+        padding: 10px 0;
       }
 
       .completed-message {
@@ -58,5 +59,106 @@
         margin-bottom: 20px;
       }
     }
+  }
+
+  .user-list {
+    width: 100%;
+
+    .user-list__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 15px 5px;
+      background: rgb(255, 254, 247);
+
+      &:nth-of-type(even) {
+        background: $secondaryBackgroundColor;
+      }
+
+      .user-list__row__cell {
+        font-size: 10px;
+
+        &:first-of-type,
+        &:nth-of-type(2) {
+          width: 30%;
+        }
+
+        &:nth-of-type(3) {
+          width: 20%;
+
+          div {
+            color: lime;
+            font-weight: 500;
+
+            &.false {
+              color: red;
+            }
+          }
+        }
+
+        &:last-of-type {
+          width: 10%;
+
+          button {
+            font-size: 8px;
+            margin-left: auto;
+            padding: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  .user-editor {
+    width: 100%;
+
+    .user-editor__data {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 100%;
+      margin-bottom: 20px;
+
+      .field {
+        width: 50%;
+        padding: 10px 0;
+        font-size: 12px;
+
+        &:nth-of-type(even) {
+          padding-left: 5px;
+        }
+
+        &:nth-of-type(odd) {
+          padding-right: 5px;
+        }
+
+        div {
+          &:first-of-type {
+            margin-bottom: 5px;
+          }
+
+          &:last-of-type {
+            color: $secondaryColor;
+
+            button {
+              padding: 5px 10px;
+              margin: 10px auto 10px;
+            }
+          }
+        }
+
+        &.claims {
+          div:first-of-type {
+            margin-bottom: 12px;
+          }
+        }
+      }
+    }
+  }
+
+  button {
+    margin-left: auto;
   }
 }

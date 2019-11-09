@@ -94,7 +94,9 @@ const Profile = props => {
 
   return (
     <main id='profile'>
-      <h1>{props.profile.isLoaded ? `${props.email}'s ` : null}Profile</h1>
+      <h1>
+        {props.profile.isLoaded ? `${props.displayName}'s ` : null}Profile
+      </h1>
       {props.profile.isLoaded ? (
         <div className='profile__container'>
           <div className='form'>
@@ -153,7 +155,7 @@ const Profile = props => {
 const mapStateToProps = state => ({
   data: state.firestore.data.WORKOUT_PROGRAMS,
   profile: state.firebase.profile,
-  email: state.firebase.auth.email
+  displayName: state.firebase.auth.displayName
 });
 
 export default compose(
