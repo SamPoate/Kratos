@@ -15,6 +15,7 @@ import Profile from './components/profile/Profile';
 import Login from './components/auth/Login';
 import Logout from './components/auth/Logout';
 import AdminArea from './components/admin/AdminArea';
+import About from './components/about/About';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
                 <AdminRoute exact path='/admin-area' component={AdminArea} />
                 <PrivateRoute exact path='/logout' component={Logout} />
                 <Route exact path='/login' component={Login} />
+                <Route exact path='/about' component={About} />
               </Switch>
             </div>
           </div>
