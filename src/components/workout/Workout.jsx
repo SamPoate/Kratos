@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
-import { updateTotalVolume } from '../../redux/actions/profileActions';
 
 import RadialMenu from '../layout/RadialMenu';
 import Loading from '../layout/Loading';
@@ -86,13 +85,6 @@ const Table = ({ data, profile, phase, week, day, updateTotalVolume }) => {
   const calcVolume = data => {
     const total = data.weight * data.total;
 
-    const reduxObj = {
-      type: data.type,
-      volume: parseFloat(total.toFixed(2))
-    };
-
-    total && updateTotalVolume(reduxObj);
-
     return total ? parseFloat(total.toFixed(2)) : '';
   };
 
@@ -138,6 +130,6 @@ const mapStateToProps = state => ({
 export default compose(
   connect(
     mapStateToProps,
-    { updateTotalVolume }
+    null
   )
 )(Workout);

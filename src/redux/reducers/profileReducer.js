@@ -9,31 +9,32 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case UPDATE_TOTAL_VOLUME:
-      const type = action.payload.type;
+      const type = action.payload.type.toLowerCase();
       const volume = action.payload.volume;
+
+      let newState = {};
 
       switch (type) {
         case 'squat':
-          return {
-            ...state,
-            totalSquat: state.totalSquat + volume
-          };
+          newState.totalSquat = state.totalSquat + volume;
+          break;
 
         case 'bench':
-          return {
-            ...state,
-            totalBench: state.totalBench + volume
-          };
+          newState.totalBench = state.totalBench + volume;
+          break;
 
         case 'deadlift':
-          return {
-            ...state,
-            totalDeadLift: state.totalDeadLift + volume
-          };
+          newState.totalDeadLift = state.totalDeadLift + volume;
+          break;
 
         default:
-          return state;
+          break;
       }
+
+      return {
+        ...state,
+        ...newState
+      };
 
     default:
       return state;
