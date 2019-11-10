@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { useFirestoreConnect, useFirebase } from 'react-redux-firebase';
+import { useFirestoreConnect, withFirebase } from 'react-redux-firebase';
 
 import RadialMenu from '../layout/RadialMenu';
 import Loading from '../layout/Loading';
@@ -12,11 +12,10 @@ const Workout = props => {
   const [week, setWeek] = useState(1);
   const [phase, setPhase] = useState(3);
   useFirestoreConnect('WORKOUT_PROGRAMS');
-  const firebase = useFirebase();
 
   useEffect(() => {
     const getData = () => {
-      firebase.auth().onAuthStateChanged(async user => {
+      props.firebase.auth().onAuthStateChanged(async user => {
         if (user) {
           const idTokenResult = await user.getIdTokenResult();
           setUser(
@@ -55,7 +54,7 @@ const Workout = props => {
     return <h1 className='admin-approval'>Awaiting Approval</h1>;
   }
 
-  if (props.isLoaded) {
+  if (props.isLoaded && user) {
     return (
       <>
         <Table
@@ -158,6 +157,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
+  withFirebase,
   connect(
     mapStateToProps,
     null

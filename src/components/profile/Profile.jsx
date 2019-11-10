@@ -126,7 +126,7 @@ const Profile = props => {
       <h1>
         {props.profile.isLoaded ? `${props.displayName}'s ` : null}Profile
       </h1>
-      {props.profile.isLoaded ? (
+      {props.profile.isLoaded && user ? (
         <div className='profile__container'>
           <div className='form'>
             <div className='form-input'>

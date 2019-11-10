@@ -1,7 +1,7 @@
 #admin_area {
   h1,
   h3 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   .content-container {
@@ -49,6 +49,8 @@
     }
 
     .csv-reader-input {
+      height: 73px;
+
       label {
         font-weight: 500;
       }
