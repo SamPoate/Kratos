@@ -8,7 +8,7 @@ const Login = ({ auth, history }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState('');
   const firebase = useFirebase();
 
   const onLogin = () => {
@@ -21,9 +21,11 @@ const Login = ({ auth, history }) => {
         history.push('/');
       })
       .catch(function(error) {
-        console.log(error.code, error.message);
-
         setLoading(false);
+        setErrorMessage(error.message);
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 5000);
       });
   };
 
@@ -49,6 +51,7 @@ const Login = ({ auth, history }) => {
               onChange={e => setPassword(e.target.value)}
             />
           </div>
+          <p>{errorMessage}</p>
           <button className='btn--white-text' onClick={onLogin}>
             Login
           </button>
