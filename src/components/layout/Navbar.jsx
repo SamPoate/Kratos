@@ -23,7 +23,7 @@ const Navbar = props => {
 
   return (
     <nav className='header'>
-      <Link className='logo' to='/'>
+      <Link className='logo' to='/' onClick={() => setChecked(false)}>
         TSM
         {/* <img src='img/logos/logo.jpg' alt='The Strength Movement' /> */}
       </Link>
@@ -38,7 +38,7 @@ const Navbar = props => {
         <span className='navicon'></span>
       </label>
       <ul className='menu'>
-        <li>
+        <li onClick={() => setChecked(false)}>
           <Link to='/'>Home</Link>
         </li>
         {props.authenticated ? (

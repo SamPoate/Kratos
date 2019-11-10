@@ -36,14 +36,10 @@ const Profile = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = () => {
-    const data = {
-      squat: squat,
-      bench: bench,
-      deadLift: deadLift
-    };
-
-    props.firebase.updateProfile(data);
+  const numberWithCommas = x => {
+    var parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
   };
 
   const sortType = name => {
@@ -111,6 +107,16 @@ const Profile = props => {
 
   calcTotals();
 
+  const onSubmit = () => {
+    const data = {
+      squat: squat,
+      bench: bench,
+      deadLift: deadLift
+    };
+
+    props.firebase.updateProfile(data);
+  };
+
   if (user === false) {
     return <h1 className='admin-approval'>Awaiting Approval</h1>;
   }
@@ -156,15 +162,24 @@ const Profile = props => {
             <h3>Total Volume Phase 3</h3>
             <div className='info__box'>
               <label>Squat</label>
-              <div>{totalVolume.squat}kg</div>
+              <div>
+                {totalVolume.squat ? numberWithCommas(totalVolume.squat) : 0}kg
+              </div>
             </div>
             <div className='info__box'>
               <label>Bench Press</label>
-              <div>{totalVolume.bench}kg</div>
+              <div>
+                {totalVolume.bench ? numberWithCommas(totalVolume.bench) : 0}kg
+              </div>
             </div>
             <div className='info__box'>
               <label>Deadlift</label>
-              <div>{totalVolume.deadLift}kg</div>
+              <div>
+                {totalVolume.deadLift
+                  ? numberWithCommas(totalVolume.deadLift)
+                  : 0}
+                kg
+              </div>
             </div>
           </div>
         </div>
