@@ -52,7 +52,7 @@ const Workout = props => {
   }
 
   if (user === false) {
-    return <h1>Awaiting Admin Approval</h1>;
+    return <h1 className='admin-approval'>Awaiting Approval</h1>;
   }
 
   if (props.isLoaded) {

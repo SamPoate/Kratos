@@ -28,10 +28,19 @@ button {
 }
 
 .container {
-  // background: $primaryBackgroundColor;
   padding: 70px 20px 10px;
 
   @include mobile {
     padding: 70px 5px 10px;
   }
+}
+
+.admin-approval {
+  width: 100%;
+  padding: 50px 30px;
+  font-size: 22px;
+  text-align: center;
+  background: $secondaryBackgroundColor;
+  border: 1px solid $primaryColor;
+  border-radius: 5px;
 }

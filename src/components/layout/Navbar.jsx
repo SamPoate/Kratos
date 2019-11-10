@@ -5,6 +5,7 @@ import { useFirebase } from 'react-redux-firebase';
 
 const Navbar = props => {
   const [admin, setAdmin] = useState(false);
+  const [checked, setChecked] = useState(false);
   const firebase = useFirebase();
 
   const checkAdmin = () => {
@@ -26,7 +27,13 @@ const Navbar = props => {
         TSM
         {/* <img src='img/logos/logo.jpg' alt='The Strength Movement' /> */}
       </Link>
-      <input className='menu-btn' type='checkbox' id='menu-btn' />
+      <input
+        className='menu-btn'
+        type='checkbox'
+        id='menu-btn'
+        checked={checked}
+        onChange={() => setChecked(!checked)}
+      />
       <label className='menu-icon' htlmfor='menu-btn'>
         <span className='navicon'></span>
       </label>
@@ -36,23 +43,23 @@ const Navbar = props => {
         </li>
         {props.authenticated ? (
           <>
-            <li>
+            <li onClick={() => setChecked(false)}>
               <Link to='/workout'>Workout Plan</Link>
             </li>
-            <li>
+            <li onClick={() => setChecked(false)}>
               <Link to='/profile'>Profile</Link>
             </li>
             {admin ? (
-              <li>
+              <li onClick={() => setChecked(false)}>
                 <Link to='/admin-area'>Admin</Link>
               </li>
             ) : null}
-            <li>
+            <li onClick={() => setChecked(false)}>
               <Link to='/logout'>Logout</Link>
             </li>
           </>
         ) : (
-          <li>
+          <li onClick={() => setChecked(false)}>
             <Link to='/login'>Login</Link>
           </li>
         )}

@@ -56,7 +56,7 @@ const Login = ({ auth, history }) => {
             <Form className='form'>
               <div className='form-input'>
                 <label>Email</label>
-                <Field type='text' name='email' />
+                <Field type='text' name='email' autocomplete='email' />
                 <ErrorMessage name='email' component='span' />
               </div>
               <div className='form-input'>

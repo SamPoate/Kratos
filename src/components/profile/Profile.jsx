@@ -9,6 +9,7 @@ const Profile = props => {
   const [squat, setSquat] = useState('');
   const [bench, setBench] = useState('');
   const [deadLift, setDeadLift] = useState('');
+  const [user, setUser] = useState(false);
   useFirestoreConnect('WORKOUT_PROGRAMS');
 
   useEffect(() => {
@@ -16,6 +17,24 @@ const Profile = props => {
     setBench(props.profile.bench ? props.profile.bench : 0);
     setDeadLift(props.profile.deadLift ? props.profile.deadLift : 0);
   }, [props.profile]);
+
+  useEffect(() => {
+    const getData = () => {
+      props.firebase.auth().onAuthStateChanged(async user => {
+        if (user) {
+          const idTokenResult = await user.getIdTokenResult();
+          setUser(
+            idTokenResult.claims.user || idTokenResult.claims.admin
+              ? true
+              : false
+          );
+        }
+      });
+    };
+
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = () => {
     const data = {
@@ -91,6 +110,10 @@ const Profile = props => {
   };
 
   calcTotals();
+
+  if (user === false) {
+    return <h1 className='admin-approval'>Awaiting Approval</h1>;
+  }
 
   return (
     <main id='profile'>
