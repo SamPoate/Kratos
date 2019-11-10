@@ -9,6 +9,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     width: 100%;
+    padding-bottom: 80px;
 
     button {
       margin-bottom: 10px;
@@ -27,11 +28,24 @@
       max-width: 768px;
       margin: 0 0 10px;
 
+      @include tablet {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        padding: 20px;
+        background: aliceblue;
+        margin-bottom: 0;
+      }
+
       button {
         color: #fff;
         font-size: 12px;
         margin: 0;
         padding: 5px 10px;
+
+        @include mobile {
+          padding: 5px;
+        }
       }
     }
 

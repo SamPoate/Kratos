@@ -157,7 +157,7 @@ const AdminArea = props => {
       <div className='content-container'>
         <div className='admin-nav'>
           <button onClick={() => setActiveTab(1)}>User List</button>
-          <button onClick={() => setActiveTab(2)}>Admin Management</button>
+          <button onClick={() => setActiveTab(2)}>Add Admin</button>
           <button onClick={() => setActiveTab(3)}>Data Upload</button>
         </div>
         {activeTab === 1 ? (
