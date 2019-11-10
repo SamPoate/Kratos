@@ -19,10 +19,26 @@
       line-height: 1.25;
     }
 
+    .admin-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 768px;
+      margin: 0 0 10px;
+
+      button {
+        color: #fff;
+        font-size: 12px;
+        margin: 0;
+        padding: 5px 10px;
+      }
+    }
+
     .card {
       position: relative;
       width: calc(50% - 10px);
-      padding: 10px;
+      padding: 10px 0;
 
       @include mobile {
         width: 100%;
@@ -83,11 +99,11 @@
 
         &:first-of-type,
         &:nth-of-type(2) {
-          width: 30%;
+          width: 35%;
         }
 
         &:nth-of-type(3) {
-          width: 20%;
+          width: 10%;
 
           div {
             color: lime;
@@ -100,11 +116,12 @@
         }
 
         &:last-of-type {
-          width: 10%;
+          width: 15%;
 
           button {
             font-size: 8px;
-            margin-left: auto;
+            float: right;
+            margin-bottom: 0;
             padding: 5px;
           }
         }

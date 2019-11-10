@@ -13,6 +13,7 @@ const AdminArea = props => {
   const [userList, setUserList] = useState([]);
   const [userManager, setUserManager] = useState(false);
   const [userObj, setUserObj] = useState({});
+  const [activeTab, setActiveTab] = useState(1);
   const firestore = useFirestore();
   const getUsers = props.firebase.functions().httpsCallable('getUserList');
 
@@ -154,79 +155,88 @@ const AdminArea = props => {
     <main id='admin_area'>
       <h1>Admin Panel</h1>
       <div className='content-container'>
-        <div className='card full-width'>
-          <h3>User List</h3>
-          {!userManager ? (
-            <div className='user-list'>
-              <div className='user-list__row title'>
-                <div className='user-list__row__cell'>Email</div>
-                <div className='user-list__row__cell'>Display Name</div>
-                <div className='user-list__row__cell'>User</div>
-                <div className='user-list__row__cell'></div>
-              </div>
-              {userList.map((u, i) => (
-                <div key={i} className='user-list__row'>
-                  <div className='user-list__row__cell'>{u.email}</div>
-                  <div className='user-list__row__cell'>
-                    {u.displayName ? u.displayName : 'No name set'}
-                  </div>
-                  <div className='user-list__row__cell'>
-                    {(u.customClaims && u.customClaims.user) ||
-                    (u.customClaims && u.customClaims.admin) ? (
-                      <div>True</div>
-                    ) : (
-                      <div className='false'>False</div>
-                    )}
-                  </div>
-                  <div className='user-list__row__cell'>
-                    <button
-                      className='btn--white-text'
-                      onClick={() => openUserManager(u)}
-                    >
-                      Manage
-                    </button>
-                  </div>
+        <div className='admin-nav'>
+          <button onClick={() => setActiveTab(1)}>User List</button>
+          <button onClick={() => setActiveTab(2)}>Admin Management</button>
+          <button onClick={() => setActiveTab(3)}>Data Upload</button>
+        </div>
+        {activeTab === 1 ? (
+          <div className='card full-width'>
+            <h3>User List</h3>
+            {!userManager ? (
+              <div className='user-list'>
+                <div className='user-list__row title'>
+                  <div className='user-list__row__cell'>Email</div>
+                  <div className='user-list__row__cell'>Display Name</div>
+                  <div className='user-list__row__cell'>User</div>
+                  <div className='user-list__row__cell'></div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <UserManager
-              setUserManager={() => setUserManager(false)}
-              user={userObj}
-              addUser={addUser}
-              removeUser={removeUser}
-              deleteUser={deleteUser}
-            />
-          )}
-        </div>
-        <div className='card'>
-          <div className='form-input'>
-            <label>Admin Email</label>
-            <input
-              type='email'
-              value={adminEmail}
-              onChange={e => setAdminEmail(e.target.value)}
-            />
+                {userList.map((u, i) => (
+                  <div key={i} className='user-list__row'>
+                    <div className='user-list__row__cell'>{u.email}</div>
+                    <div className='user-list__row__cell'>
+                      {u.displayName ? u.displayName : 'No name set'}
+                    </div>
+                    <div className='user-list__row__cell'>
+                      {(u.customClaims && u.customClaims.user) ||
+                      (u.customClaims && u.customClaims.admin) ? (
+                        <div>True</div>
+                      ) : (
+                        <div className='false'>False</div>
+                      )}
+                    </div>
+                    <div className='user-list__row__cell'>
+                      <button
+                        className='btn--white-text'
+                        onClick={() => openUserManager(u)}
+                      >
+                        Manage
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <UserManager
+                setUserManager={() => setUserManager(false)}
+                user={userObj}
+                addUser={addUser}
+                removeUser={removeUser}
+                deleteUser={deleteUser}
+              />
+            )}
           </div>
-          <button className='submit btn--white-text' onClick={addAdmin}>
-            Add Admin
-          </button>
-          <p className='api-response'>{addAdminResponse}</p>
-        </div>
-        <div className='card'>
-          <CSVReader
-            cssClass='csv-reader-input'
-            label='Upload a .csv'
-            onFileLoaded={handleFile}
-            onError={err => console.log(err)}
-          />
-          <button className='submit btn--white-text' onClick={save}>
-            Save
-          </button>
-          {completed ? (
-            <div className='completed-message'>{completed}</div>
-          ) : null}
-        </div>
+        ) : activeTab === 2 ? (
+          <div className='card'>
+            <div className='form-input'>
+              <label>Admin Email</label>
+              <input
+                type='email'
+                value={adminEmail}
+                onChange={e => setAdminEmail(e.target.value)}
+              />
+            </div>
+            <button className='submit btn--white-text' onClick={addAdmin}>
+              Add Admin
+            </button>
+            <p className='api-response'>{addAdminResponse}</p>
+          </div>
+        ) : (
+          <div className='card'>
+            <CSVReader
+              cssClass='csv-reader-input'
+              label='Upload a .csv'
+              onFileLoaded={handleFile}
+              onError={err => console.log(err)}
+            />
+            <button className='submit btn--white-text' onClick={save}>
+              Save
+            </button>
+            {completed ? (
+              <div className='completed-message'>{completed}</div>
+            ) : null}
+          </div>
+        )}
       </div>
     </main>
   );
@@ -239,6 +249,34 @@ const UserManager = ({
   removeUser,
   deleteUser
 }) => {
+  if (user.customClaims && user.customClaims.admin) {
+    return (
+      <div className='user-editor'>
+        <div className='user-editor__data'>
+          <div className='field'>
+            <div>Email</div>
+            <div>{user.email}</div>
+          </div>
+          <div className='field'>
+            <div>Display Name</div>
+            <div>{user.displayName ? user.displayName : 'No name set'}</div>
+          </div>
+          <div className='field'>
+            <div>Last Time Online</div>
+            <div>{user.lastSignIn}</div>
+          </div>
+          <div className='field'>
+            <div>Account Disabled</div>
+            <div>{user.disabled ? 'Yes' : 'No'}</div>
+          </div>
+          <button className='btn--white-text' onClick={setUserManager}>
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className='user-editor'>
       <div className='user-editor__data'>
