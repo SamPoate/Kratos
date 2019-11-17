@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withFirebase, useFirestoreConnect } from 'react-redux-firebase';
 
 import Loading from '../layout/Loading';
+import moment from 'moment';
 
 const Profile = props => {
   const [squat, setSquat] = useState('');
@@ -13,9 +14,29 @@ const Profile = props => {
   useFirestoreConnect('WORKOUT_PROGRAMS');
 
   useEffect(() => {
-    setSquat(props.profile.squat ? props.profile.squat : 0);
-    setBench(props.profile.bench ? props.profile.bench : 0);
-    setDeadLift(props.profile.deadLift ? props.profile.deadLift : 0);
+    let closestDate = Infinity;
+
+    if (props.profile.weights) {
+      const dates = Object.keys(props.profile.weights);
+
+      dates.forEach(date => {
+        const diff = moment().diff(date);
+
+        if (diff < closestDate) {
+          closestDate = date;
+        }
+      });
+    }
+
+    setSquat(
+      props.profile.weights ? props.profile.weights[closestDate].squat : 0
+    );
+    setBench(
+      props.profile.weights ? props.profile.weights[closestDate].bench : 0
+    );
+    setDeadLift(
+      props.profile.weights ? props.profile.weights[closestDate].deadLift : 0
+    );
   }, [props.profile]);
 
   useEffect(() => {
@@ -109,9 +130,13 @@ const Profile = props => {
 
   const onSubmit = () => {
     const data = {
-      squat: squat,
-      bench: bench,
-      deadLift: deadLift
+      weights: {
+        [moment().format()]: {
+          squat: squat,
+          bench: bench,
+          deadLift: deadLift
+        }
+      }
     };
 
     props.firebase.updateProfile(data);
@@ -196,10 +221,4 @@ const mapStateToProps = state => ({
   displayName: state.firebase.auth.displayName
 });
 
-export default compose(
-  withFirebase,
-  connect(
-    mapStateToProps,
-    null
-  )
-)(Profile);
+export default compose(withFirebase, connect(mapStateToProps, null))(Profile);
