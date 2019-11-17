@@ -7,15 +7,14 @@ import Loading from '../layout/Loading';
 import moment from 'moment';
 
 const Profile = props => {
-  const [squat, setSquat] = useState('');
-  const [bench, setBench] = useState('');
-  const [deadLift, setDeadLift] = useState('');
+  const [squat, setSquat] = useState('0');
+  const [bench, setBench] = useState('0');
+  const [deadLift, setDeadLift] = useState('0');
   const [user, setUser] = useState(false);
+  const [closestDate, setClosestDate] = useState(Infinity);
   useFirestoreConnect('WORKOUT_PROGRAMS');
 
   useEffect(() => {
-    let closestDate = Infinity;
-
     if (props.profile.weights) {
       const dates = Object.keys(props.profile.weights);
 
@@ -23,21 +22,17 @@ const Profile = props => {
         const diff = moment().diff(date);
 
         if (diff < closestDate) {
-          closestDate = date;
+          setClosestDate(date);
         }
       });
     }
 
-    setSquat(
-      props.profile.weights ? props.profile.weights[closestDate].squat : 0
-    );
-    setBench(
-      props.profile.weights ? props.profile.weights[closestDate].bench : 0
-    );
-    setDeadLift(
-      props.profile.weights ? props.profile.weights[closestDate].deadLift : 0
-    );
-  }, [props.profile]);
+    if (closestDate !== Infinity) {
+      setSquat(props.profile.weights[closestDate].squat);
+      setBench(props.profile.weights[closestDate].bench);
+      setDeadLift(props.profile.weights[closestDate].deadLift);
+    }
+  }, [props.profile, closestDate]);
 
   useEffect(() => {
     const getData = () => {
@@ -91,7 +86,11 @@ const Profile = props => {
     }
 
     const percent = parseInt(data.percent);
-    const weight = (parseInt(props.profile[workoutType]) / 100) * percent;
+    const weight =
+      closestDate !== Infinity
+        ? (parseInt(props.profile.weights[closestDate][workoutType]) / 100) *
+          percent
+        : 0;
     data.weight = weight;
     data.type = workoutType;
 
