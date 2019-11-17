@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { useFirestoreConnect, withFirebase } from 'react-redux-firebase';
+import moment from 'moment';
 
 import RadialMenu from '../layout/RadialMenu';
 import Loading from '../layout/Loading';
@@ -55,15 +56,26 @@ const Workout = props => {
   }
 
   if (props.isLoaded && user) {
+    let closestDate = Infinity;
+
+    if (props.profile.weights) {
+      const dates = Object.keys(props.profile.weights);
+
+      dates.forEach(date => {
+        const diff = moment().diff(date);
+
+        if (diff < closestDate) {
+          closestDate = date;
+        }
+      });
+    }
     return (
       <>
         <Table
           data={data}
           profile={
-            props.profile.squat > 0 &&
-            props.profile.bench > 0 &&
-            props.profile.deadLift > 0
-              ? props.profile
+            props.profile.weights
+              ? props.profile.weights[closestDate]
               : { squat: 0, bench: 0, deadLift: 0 }
           }
           phase={phase}
@@ -156,10 +168,4 @@ const mapStateToProps = state => ({
   data: state.firestore.data.WORKOUT_PROGRAMS
 });
 
-export default compose(
-  withFirebase,
-  connect(
-    mapStateToProps,
-    null
-  )
-)(Workout);
+export default compose(withFirebase, connect(mapStateToProps, null))(Workout);
