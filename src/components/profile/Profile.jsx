@@ -5,6 +5,7 @@ import { withFirebase, useFirestoreConnect } from 'react-redux-firebase';
 
 import Loading from '../layout/Loading';
 import moment from 'moment';
+import { Menu, Dropdown } from 'semantic-ui-react';
 
 const Profile = props => {
   const [squat, setSquat] = useState('0');
@@ -12,6 +13,7 @@ const Profile = props => {
   const [deadLift, setDeadLift] = useState('0');
   const [user, setUser] = useState(false);
   const [closestDate, setClosestDate] = useState(Infinity);
+  const [activeItem, setActiveItem] = useState('Home');
   useFirestoreConnect('WORKOUT_PROGRAMS');
 
   useEffect(() => {
@@ -100,7 +102,7 @@ const Profile = props => {
 
   let totalVolume = {};
   const calcTotals = () => {
-    const data = props.data ? props.data.PHASE_THREE : null;
+    const data = props.data && props.phase ? props.data[props.phase] : null;
     if (!data) {
       return;
     }
@@ -141,71 +143,111 @@ const Profile = props => {
     props.firebase.updateProfile(data);
   };
 
+  const onChangePhase = value => {
+    const data = {
+      set_phase: value
+    };
+
+    props.firebase.updateProfile(data);
+  };
+
   if (user === false) {
     return <h1 className='admin-approval'>Awaiting Approval</h1>;
   }
 
   return (
     <main id='profile'>
+      <Menu tabular>
+        <Menu.Item
+          name='Home'
+          active={activeItem === 'Home'}
+          onClick={(e, { name }) => setActiveItem(name)}
+        />
+        <Menu.Item
+          name='Settings'
+          active={activeItem === 'Settings'}
+          onClick={(e, { name }) => setActiveItem(name)}
+        />
+      </Menu>
       <h1>
         {props.profile.isLoaded ? `${props.displayName}'s ` : null}Profile
       </h1>
       {props.profile.isLoaded && user ? (
         <div className='profile__container'>
-          <div className='form'>
-            <div className='form-input'>
-              <label>Squat</label>
-              <input
-                type='number'
-                value={squat}
-                onChange={e => setSquat(e.target.value)}
-              />
-            </div>
-            <div className='form-input'>
-              <label>Bench Press</label>
-              <input
-                type='number'
-                value={bench}
-                onChange={e => setBench(e.target.value)}
-              />
-            </div>
-            <div className='form-input'>
-              <label>Deadlift</label>
-              <input
-                type='number'
-                value={deadLift}
-                onChange={e => setDeadLift(e.target.value)}
-              />
-            </div>
-
-            <button className='submit btn--white-text' onClick={onSubmit}>
-              Submit
-            </button>
-          </div>
-          <div className='info'>
-            <h3>Total Volume Phase 3</h3>
-            <div className='info__box'>
-              <label>Squat</label>
-              <div>
-                {totalVolume.squat ? numberWithCommas(totalVolume.squat) : 0}kg
+          {activeItem === 'Home' ? (
+            <div className='info'>
+              <h3>Total Volume Phase 3</h3>
+              <div className='info__box'>
+                <label>Squat</label>
+                <div>
+                  {totalVolume.squat ? numberWithCommas(totalVolume.squat) : 0}
+                  kg
+                </div>
+              </div>
+              <div className='info__box'>
+                <label>Bench Press</label>
+                <div>
+                  {totalVolume.bench ? numberWithCommas(totalVolume.bench) : 0}
+                  kg
+                </div>
+              </div>
+              <div className='info__box'>
+                <label>Deadlift</label>
+                <div>
+                  {totalVolume.deadLift
+                    ? numberWithCommas(totalVolume.deadLift)
+                    : 0}
+                  kg
+                </div>
               </div>
             </div>
-            <div className='info__box'>
-              <label>Bench Press</label>
-              <div>
-                {totalVolume.bench ? numberWithCommas(totalVolume.bench) : 0}kg
+          ) : (
+            <div className='form'>
+              <div className='form-input'>
+                <label>Squat</label>
+                <input
+                  type='number'
+                  value={squat}
+                  onChange={e => setSquat(e.target.value)}
+                />
               </div>
-            </div>
-            <div className='info__box'>
-              <label>Deadlift</label>
-              <div>
-                {totalVolume.deadLift
-                  ? numberWithCommas(totalVolume.deadLift)
-                  : 0}
-                kg
+              <div className='form-input'>
+                <label>Bench Press</label>
+                <input
+                  type='number'
+                  value={bench}
+                  onChange={e => setBench(e.target.value)}
+                />
               </div>
+              <div className='form-input'>
+                <label>Deadlift</label>
+                <input
+                  type='number'
+                  value={deadLift}
+                  onChange={e => setDeadLift(e.target.value)}
+                />
+              </div>
+              <button className='submit btn--white-text' onClick={onSubmit}>
+                Submit
+              </button>
+              <h3>Phase</h3>
+              <Dropdown
+                placeholder='Select Phase'
+                fluid
+                selection
+                onChange={(e, { value }) => onChangePhase(value)}
+                defaultValue={props.phase ? props.phase : 'PHASE_THREE'}
+                options={[
+                  {
+                    key: 'phaseThree',
+                    text: 'Phase Three',
+                    value: 'PHASE_THREE'
+                  },
+                  { key: 'phaseFour', text: 'Phase Four', value: 'PHASE_FOUR' }
+                ]}
+              />
             </div>
-          </div>
+          )}
         </div>
       ) : (
         <Loading />
@@ -216,6 +258,7 @@ const Profile = props => {
 
 const mapStateToProps = state => ({
   data: state.firestore.data.WORKOUT_PROGRAMS,
+  phase: state.firebase.profile.set_phase,
   profile: state.firebase.profile,
   displayName: state.firebase.auth.displayName
 });

@@ -11,7 +11,7 @@ const Workout = props => {
   const [user, setUser] = useState(false);
   const [day, setDay] = useState(1);
   const [week, setWeek] = useState(1);
-  const [phase, setPhase] = useState(3);
+  const [phase, setPhase] = useState(props.phase ? props.phase : 'PHASE_THREE');
   useFirestoreConnect('WORKOUT_PROGRAMS');
 
   useEffect(() => {
@@ -41,14 +41,10 @@ const Workout = props => {
 
   let data;
   if (props.data) {
-    const defaultPhase = 'PHASE_ONE';
-    const phaseConvert = `phase_${dict[phase]}`.toUpperCase();
     const weekConvert = `week_${dict[week]}`;
     const dayConvert = `day_${dict[day]}`;
 
-    data = props.data[phaseConvert]
-      ? props.data[phaseConvert][weekConvert][dayConvert]
-      : props.data[defaultPhase][weekConvert][dayConvert];
+    data = props.data[phase][weekConvert][dayConvert];
   }
 
   if (user === false) {
@@ -101,6 +97,11 @@ const Table = ({ data, profile, phase, week, day }) => {
     'Volume (kg)'
   ];
 
+  const phaseDict = {
+    PHASE_THREE: 'Phase 3',
+    PHASE_FOUR: 'Phase 4'
+  };
+
   const calcWeight = data => {
     if (data.weight) return data.weight;
     let workoutType;
@@ -136,7 +137,7 @@ const Table = ({ data, profile, phase, week, day }) => {
   return (
     <main className='table'>
       <h1>
-        Phase {phase} - Week {week} - Day {day}
+        {phaseDict[phase]} - Week {week} - Day {day}
       </h1>
       <div className='table-container'>
         <div className='row title-row'>
@@ -164,6 +165,7 @@ const Table = ({ data, profile, phase, week, day }) => {
 
 const mapStateToProps = state => ({
   profile: state.firebase.profile,
+  phase: state.firebase.profile.set_phase,
   isLoaded: state.firebase.profile.isLoaded,
   data: state.firestore.data.WORKOUT_PROGRAMS
 });
