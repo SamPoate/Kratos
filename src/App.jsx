@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './helpers/PrivateRoute';
 import AdminRoute from './helpers/AdminRoute';
+import 'semantic-ui-css/semantic.min.css';
 
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { Provider } from 'react-redux';
