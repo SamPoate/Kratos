@@ -97,15 +97,15 @@ const Workout = props => {
 };
 
 const Table = ({ data, profile, phase, week, day }) => {
-    const titleRow = [
-        'Workout Name',
-        'Sets',
-        'Reps',
-        'Total',
-        '%',
-        'Weight/RPE',
-        'Volume (kg)'
-    ];
+    // const titleRow = [
+    //     'Workout Name',
+    //     'Sets',
+    //     'Reps',
+    //     'Total',
+    //     '%',
+    //     'Weight/RPE',
+    //     'Volume (kg)'
+    // ];
 
     const phaseDict = {
         PHASE_THREE: 'Phase 3',
@@ -150,22 +150,44 @@ const Table = ({ data, profile, phase, week, day }) => {
                 {phaseDict[phase]} - Week {week} - Day {day}
             </h1>
             <div className='table-container'>
-                <div className='row title-row'>
+                {/* <div className='row title-row'>
                     {titleRow.map((r, i) => (
                         <div key={i} className='cell'>
                             {r}
                         </div>
                     ))}
-                </div>
+                </div> */}
                 {data.map((r, i) => (
                     <div key={i} className='row'>
-                        <div className='cell'>{r.name}</div>
-                        <div className='cell'>{r.sets}</div>
-                        <div className='cell'>{r.reps}</div>
-                        <div className='cell'>{r.total}</div>
-                        <div className='cell'>{r.percent}</div>
-                        <div className='cell'>{calcWeight(r)}</div>
-                        <div className='cell'>{calcVolume(r)}</div>
+                        <div className='cell'>
+                            <span>{r.name}</span>
+                        </div>
+                        <div className='cell'>
+                            <span>{r.sets}</span> Sets
+                        </div>
+                        <div className='cell'>
+                            <span>{r.reps}</span> Reps
+                        </div>
+                        <div className='cell'>
+                            <span>{r.total}</span> Total
+                        </div>
+                        <div className='cell'>
+                            <span>{r.percent ? `${r.percent}%` : ''}</span>
+                        </div>
+                        <div className='cell'>
+                            {calcWeight(r) ? (
+                                <>
+                                    <span>{calcWeight(r)}</span> Weight/RPE
+                                </>
+                            ) : null}
+                        </div>
+                        <div className='cell'>
+                            {calcVolume(r) ? (
+                                <>
+                                    <span>{calcVolume(r)}</span> Volume (kg)
+                                </>
+                            ) : null}
+                        </div>
                     </div>
                 ))}
             </div>
