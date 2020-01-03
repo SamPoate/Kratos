@@ -29,4 +29,43 @@
     height: 10px;
     color: $error;
   }
+
+  .required::after {
+    content: '*';
+    color: $error;
+    float: right;
+    padding-right: 5px;
+    transform: translateY(2px);
+    font-size: 12px;
+  }
+
+  .form__input__dropdown {
+    ul {
+      position: absolute;
+      top: 38px;
+      left: 0;
+      width: 100%;
+      background: white;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      border: 1px solid $primaryColor;
+      z-index: 10;
+
+      &.closed {
+        display: none;
+      }
+
+      li {
+        padding: 5px;
+        font-size: 12px;
+        cursor: pointer;
+
+        &:hover,
+        &[aria-selected='true'] {
+          background: $primaryColor;
+          color: white;
+        }
+      }
+    }
+  }
 }
