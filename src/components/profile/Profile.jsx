@@ -244,17 +244,17 @@ const Profile = props => {
                 fluid
                 selection
                 onChange={(e, { value }) => onChangePhase(value)}
-                defaultValue={props.phase ? props.phase : 'PHASE_THREE'}
+                defaultValue={props.phase ? props.phase : 'PHASE_ONE'}
                 options={[
+                  {
+                    key: 'phaseOne',
+                    text: 'Phase One',
+                    value: 'PHASE_ONE'
+                  },
                   {
                     key: 'phaseThree',
                     text: 'Phase Three',
                     value: 'PHASE_THREE'
-                  },
-                  {
-                    key: 'phaseFour',
-                    text: 'Phase Four',
-                    value: 'PHASE_FOUR'
                   }
                 ]}
                 loading={phaseSaving}
