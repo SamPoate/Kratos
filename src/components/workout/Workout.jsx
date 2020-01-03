@@ -169,7 +169,7 @@ const Table = ({
               <span>{r.total}</span> Total
             </div>
             <div className='cell'>
-              <span>{r.percent ? `${r.percent}%` : ''}</span>
+              <span>{r.percent ? `${r.percent}` : ''}</span> %
             </div>
             <div className='cell'>
               {calcWeight(r) ? (
@@ -181,7 +181,7 @@ const Table = ({
             <div className='cell'>
               {calcVolume(r) ? (
                 <>
-                  <span>{calcVolume(r)}</span> Volume (kg)
+                  <span>{calcVolume(r)}</span>&nbsp;Volume (kg)
                 </>
               ) : (
                 <WeightInput
