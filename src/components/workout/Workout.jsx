@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { useFirestoreConnect, withFirebase } from 'react-redux-firebase';
 import moment from 'moment';
+import { Input } from 'semantic-ui-react';
 
 import RadialMenu from '../layout/RadialMenu';
 import Loading from '../layout/Loading';
@@ -97,6 +98,8 @@ const Workout = props => {
 };
 
 const Table = ({ data, profile, phase, week, day }) => {
+    const [weight, setWeight] = useState('');
+
     // const titleRow = [
     //     'Workout Name',
     //     'Sets',
@@ -110,6 +113,21 @@ const Table = ({ data, profile, phase, week, day }) => {
     const phaseDict = {
         PHASE_THREE: 'Phase 3',
         PHASE_FOUR: 'Phase 4'
+    };
+
+    const weightOnChange = (value, rowData) => {
+        const numberRegex = /[0-9]|./;
+
+        if (numberRegex.test(value) || !value) {
+            const objKey = rowData.name.replace(/\W/g, '').toLowerCase();
+
+            setWeight(prevState => ({
+                weight: {
+                    ...prevState.weight,
+                    [objKey]: value
+                }
+            }));
+        }
     };
 
     const calcWeight = data => {
@@ -186,7 +204,23 @@ const Table = ({ data, profile, phase, week, day }) => {
                                 <>
                                     <span>{calcVolume(r)}</span> Volume (kg)
                                 </>
-                            ) : null}
+                            ) : (
+                                <Input
+                                    label={{ basic: true, content: 'kg' }}
+                                    labelPosition='right'
+                                    placeholder='Enter weight...'
+                                    value={
+                                        weight
+                                            ? weight
+                                                  .replace(/\W/g, '')
+                                                  .toLowerCase()
+                                            : ''
+                                    }
+                                    onChange={e =>
+                                        weightOnChange(e.target.value, r)
+                                    }
+                                />
+                            )}
                         </div>
                     </div>
                 ))}
