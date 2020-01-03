@@ -6,6 +6,7 @@ import { withFirebase, useFirestoreConnect } from 'react-redux-firebase';
 import Loading from '../layout/Loading';
 import moment from 'moment';
 import { Menu, Dropdown } from 'semantic-ui-react';
+import { capitalize } from '../../helpers/formatters';
 
 const Profile = props => {
   const [squat, setSquat] = useState('0');
@@ -180,7 +181,10 @@ const Profile = props => {
         <div className='profile__container'>
           {activeItem === 'Home' ? (
             <div className='info'>
-              <h3>Total Volume Phase 3</h3>
+              <h3>
+                Total Volume Phase{' '}
+                {capitalize(props.phase.replace('PHASE_', '').toLowerCase())}
+              </h3>
               <div className='info__box'>
                 <label>Squat</label>
                 <div>

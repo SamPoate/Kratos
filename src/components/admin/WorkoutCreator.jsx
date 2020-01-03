@@ -4,6 +4,7 @@ import { useFirestore } from 'react-redux-firebase';
 import update from 'immutability-helper';
 import { uuid } from 'uuidv4';
 import { Dropdown, Icon } from 'semantic-ui-react';
+import { capitalize } from '../../helpers/formatters';
 
 const WorkoutCreator = () => {
   const [workoutData, setWorkoutData] = useState({});
@@ -266,11 +267,6 @@ const FormGroup = ({ onChange, data, removeWorkoutGroup }) => {
   const [errors, setErrors] = useState({});
 
   const checkErrors = (key, value) => {
-    const capitalize = s => {
-      if (typeof s !== 'string') return '';
-      return s.charAt(0).toUpperCase() + s.slice(1);
-    };
-
     if (!value) {
       setErrors({ [key]: capitalize(key) + ' Required!' });
     } else {
