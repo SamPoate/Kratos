@@ -159,6 +159,14 @@ const Profile = props => {
     return <h1 className='admin-approval'>Awaiting Approval</h1>;
   }
 
+  if (!props.phase) {
+    const data = {
+      set_phase: 'PHASE_ONE'
+    };
+
+    props.firebase.updateProfile(data);
+  }
+
   return (
     <main id='profile'>
       <Menu tabular>
@@ -177,7 +185,7 @@ const Profile = props => {
         {props.profile.isLoaded ? `${props.displayName}'s ` : null}
         Profile
       </h1>
-      {props.profile.isLoaded && user ? (
+      {props.profile.isLoaded && user && props.phase ? (
         <div className='profile__container'>
           {activeItem === 'Home' ? (
             <div className='info'>
