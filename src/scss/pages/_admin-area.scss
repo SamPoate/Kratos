@@ -231,22 +231,15 @@
       }
 
       .workout-datetime {
-        position: relative;
+        display: flex;
+        margin-bottom: 10px;
 
-        .ui.tabular.menu .item {
-          padding: 5px 10px;
-          font-size: 12px;
-        }
-
-        > div:last-of-type {
-          position: absolute;
-          right: 0;
-          top: 5px;
+        > div {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 90px;
-          margin: 0;
+          width: 33%;
+          margin: 0 10px 0 0;
           background: #fff;
 
           p {

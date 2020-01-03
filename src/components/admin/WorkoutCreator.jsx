@@ -3,14 +3,13 @@ import CSVReader from 'react-csv-reader';
 import { useFirestore } from 'react-redux-firebase';
 import update from 'immutability-helper';
 import { uuid } from 'uuidv4';
-import { Menu, Dropdown, Icon } from 'semantic-ui-react';
+import { Dropdown, Icon } from 'semantic-ui-react';
 
 const WorkoutCreator = () => {
   const [workoutData, setWorkoutData] = useState({});
   // eslint-disable-next-line
   const [completed, setCompleted] = useState('');
-  // eslint-disable-next-line
-  const [phase, setPhase] = useState('');
+  const [phase, setPhase] = useState('PHASE_ONE');
   const [day, setDay] = useState('1');
   const [week, setWeek] = useState('1');
   // eslint-disable-next-line
@@ -159,15 +158,14 @@ const WorkoutCreator = () => {
     setWorkoutData(newData);
   };
 
-  const save = values => {
-    console.log(values);
-    // firestore
-    //   .collection('WORKOUT_PROGRAMS')
-    //   .doc(phase)
-    //   .set(workoutData)
-    //   .then(() => {
-    //     setCompleted('File Uploaded');
-    //   });
+  const save = () => {
+    firestore
+      .collection('WORKOUT_PROGRAMS')
+      .doc(phase)
+      .set(workoutData)
+      .then(() => {
+        setCompleted('Phase Uploaded');
+      });
   };
 
   return (
@@ -178,30 +176,8 @@ const WorkoutCreator = () => {
         onFileLoaded={handleFile}
         onError={err => console.log(err)}
       />
-      <form className='form workout-creator__form' onSubmit={save}>
+      <div className='form workout-creator__form' onSubmit={save}>
         <div className='workout-datetime'>
-          <Menu tabular>
-            <Menu.Item
-              name='Week 1'
-              active={week === '1'}
-              onClick={() => setWeek('1')}
-            />
-            <Menu.Item
-              name='Week 2'
-              active={week === '2'}
-              onClick={() => setWeek('2')}
-            />
-            <Menu.Item
-              name='Week 3'
-              active={week === '3'}
-              onClick={() => setWeek('3')}
-            />
-            <Menu.Item
-              name='Week 4'
-              active={week === '4'}
-              onClick={() => setWeek('4')}
-            />
-          </Menu>
           <div>
             <p>Day: </p>
             <Dropdown
@@ -209,12 +185,46 @@ const WorkoutCreator = () => {
               fluid
               selection
               onChange={(e, { value }) => setDay(value)}
-              defaultValue={1}
-              options={[1, 2, 3, 4, 5, 6, 7].map(a => {
+              value={day}
+              options={['1', '2', '3', '4', '5', ' 6', '7'].map(a => {
                 return {
                   key: a,
                   text: a,
                   value: a
+                };
+              })}
+            />
+          </div>
+          <div>
+            <p>Week: </p>
+            <Dropdown
+              placeholder='Select Week'
+              fluid
+              selection
+              onChange={(e, { value }) => setWeek(value)}
+              value={week}
+              options={['1', '2', '3', '4'].map(a => {
+                return {
+                  key: a,
+                  text: a,
+                  value: a
+                };
+              })}
+            />
+          </div>
+          <div>
+            <p>Phase: </p>
+            <Dropdown
+              placeholder='Select Phase'
+              fluid
+              selection
+              onChange={(e, { value }) => setPhase(value)}
+              value={phase}
+              options={['1', '2', '3', '4'].map(a => {
+                return {
+                  key: 'PHASE_' + dict[a].toUpperCase(),
+                  text: a,
+                  value: 'PHASE_' + dict[a].toUpperCase()
                 };
               })}
             />
@@ -240,7 +250,7 @@ const WorkoutCreator = () => {
             Save
           </button>
         </div>
-      </form>
+      </div>
       <button className='btn--white-text' onClick={addWorkoutGroup}>
         Add
       </button>
@@ -314,7 +324,7 @@ const FormGroup = ({ onChange, data, removeWorkoutGroup }) => {
             Reps
           </label>
           <input
-            type='number'
+            type='text'
             name='reps'
             onChange={e => setReps(e.target.value)}
             value={reps}
