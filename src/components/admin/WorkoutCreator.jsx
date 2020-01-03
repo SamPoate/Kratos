@@ -7,12 +7,10 @@ import { Dropdown, Icon } from 'semantic-ui-react';
 
 const WorkoutCreator = () => {
   const [workoutData, setWorkoutData] = useState({});
-  // eslint-disable-next-line
   const [completed, setCompleted] = useState('');
   const [phase, setPhase] = useState('PHASE_ONE');
   const [day, setDay] = useState('1');
   const [week, setWeek] = useState('1');
-  // eslint-disable-next-line
   const firestore = useFirestore();
   const dict = {
     1: 'one',

@@ -1,47 +1,70 @@
 .table {
-    width: 100%;
-    padding-bottom: 80px;
+  width: 100%;
+  padding-bottom: 80px;
 
-    h1 {
-        margin-bottom: 0;
-    }
+  h1 {
+    margin-bottom: 0;
+  }
 
-    &-container {
-        max-width: 1024px;
-        margin: 0 auto;
+  &-container {
+    max-width: 1024px;
+    margin: 0 auto;
 
-        .row {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 10px 0;
-            border-bottom: 1px solid #696969;
+    .row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 10px 0;
+      border-bottom: 1px solid #696969;
 
-            &.title-row {
-                font-weight: 500;
-                background: #dcdcdc;
-            }
+      &.title-row {
+        font-weight: 500;
+        background: #dcdcdc;
+      }
 
-            .cell {
-                font-size: 10px;
-                width: 20%;
-                padding: 5px;
-                line-height: 1.3;
+      .cell {
+        font-size: 10px;
+        width: 20%;
+        padding: 5px;
+        line-height: 1.3;
 
-                &:first-of-type {
-                    width: 100%;
-                    padding-left: 0;
-                }
-
-                &:nth-last-of-type(2),
-                &:last-of-type {
-                    width: 50%;
-                }
-
-                span {
-                    font-weight: bold;
-                }
-            }
+        &:first-of-type {
+          width: 100%;
+          padding-left: 0;
         }
+
+        &:nth-last-of-type(2) {
+          width: 40%;
+        }
+
+        &:last-of-type {
+          position: relative;
+          width: 60%;
+
+          > div:first-of-type {
+            input {
+              width: 90px;
+            }
+          }
+
+          > button {
+            margin-left: 10px;
+            padding: 6px;
+          }
+
+          > label {
+            position: absolute;
+            bottom: -7px;
+            left: 6px;
+            font-size: 9px;
+            color: $error;
+          }
+        }
+
+        span {
+          font-weight: bold;
+        }
+      }
     }
+  }
 }
