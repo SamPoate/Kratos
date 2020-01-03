@@ -192,7 +192,9 @@ const Table = ({
                   key={r.uuid ? r.uuid : i}
                   rowData={r}
                   firebase={firebase}
-                  recordedWeight={recordedWeights[r.uuid]}
+                  recordedWeight={
+                    recordedWeights ? recordedWeights[r.uuid] : ''
+                  }
                   disabled={r.uuid ? false : true}
                 />
               )}
