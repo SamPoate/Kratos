@@ -169,7 +169,11 @@ const Table = ({
               <span>{r.total}</span> Total
             </div>
             <div className='cell'>
-              <span>{r.percent ? `${r.percent}` : ''}</span> %
+              {r.percent ? (
+                <>
+                  <span>{r.percent}</span> %
+                </>
+              ) : null}
             </div>
             <div className='cell'>
               {calcWeight(r) ? (
