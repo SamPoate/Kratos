@@ -12,7 +12,7 @@
     .info {
       width: calc(50% - 20px);
 
-      @include mobile {
+      @include tablet {
         width: 100%;
       }
 
