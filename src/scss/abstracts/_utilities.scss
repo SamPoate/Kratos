@@ -1,62 +1,66 @@
 body {
-    font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 h1,
 h2,
 h3 {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 h1 {
-    font-size: 22px;
+  font-size: 22px;
 }
 
 input {
-    font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .ui.menu {
-    font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 button {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background: $primaryColor;
-    cursor: pointer;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: $primaryColor;
+  cursor: pointer;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 
-    &:active {
-        color: #fff;
-        background: $secondaryColor;
-    }
+  &:active {
+    color: #fff;
+    background: $secondaryColor;
+  }
 }
 
 .container {
-    padding: 70px 20px 10px;
+  padding: 70px 20px 10px;
 
-    @include mobile {
-        padding: 70px 5px 10px;
-    }
+  @include tablet {
+    padding: 70px 10px 10px;
+  }
+
+  @include mobile {
+    padding: 70px 5px 10px;
+  }
 }
 
 .width--100p {
-    width: 100%;
+  width: 100%;
 }
 
 .width--50p {
-    width: 50%;
+  width: 50%;
 }
 
 .admin-approval {
-    width: 100%;
-    padding: 50px 30px;
-    font-size: 22px;
-    text-align: center;
-    background: $secondaryBackgroundColor;
-    border: 1px solid $primaryColor;
-    border-radius: 5px;
+  width: 100%;
+  padding: 50px 30px;
+  font-size: 22px;
+  text-align: center;
+  background: $secondaryBackgroundColor;
+  border: 1px solid $primaryColor;
+  border-radius: 5px;
 }
