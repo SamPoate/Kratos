@@ -15,10 +15,14 @@
   }
 
   .home__menu-grid {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: space-around;
     margin-top: 20px;
+
+    @include tablet {
+      display: flex;
+    }
 
     .home__menu-grid__menu-button {
       display: flex;
