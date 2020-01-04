@@ -5,8 +5,10 @@ import { withFirebase, useFirestoreConnect } from 'react-redux-firebase';
 
 import Loading from '../layout/Loading';
 import moment from 'moment';
-import { Menu, Dropdown } from 'semantic-ui-react';
+import { Menu, Dropdown, Input } from 'semantic-ui-react';
 import { capitalize } from '../../helpers/formatters';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
 
 const Profile = props => {
   const [squat, setSquat] = useState('0');
@@ -14,7 +16,7 @@ const Profile = props => {
   const [deadLift, setDeadLift] = useState('0');
   const [user, setUser] = useState(false);
   const [closestDate, setClosestDate] = useState(Infinity);
-  const [activeItem, setActiveItem] = useState('Home');
+  const [activeItem, setActiveItem] = useState('Biometrics');
   const [phaseSaving, setPhaseSaving] = useState(false);
   useFirestoreConnect('WORKOUT_PROGRAMS');
 
@@ -180,6 +182,11 @@ const Profile = props => {
           active={activeItem === 'Settings'}
           onClick={(e, { name }) => setActiveItem(name)}
         />
+        <Menu.Item
+          name='Biometrics'
+          active={activeItem === 'Biometrics'}
+          onClick={(e, { name }) => setActiveItem(name)}
+        />
       </Menu>
       <h1>
         {props.profile.isLoaded ? `${props.displayName}'s ` : null}
@@ -217,7 +224,7 @@ const Profile = props => {
                 </div>
               </div>
             </div>
-          ) : (
+          ) : activeItem === 'Settings' ? (
             <div className='form'>
               <div className='form-input'>
                 <label>Squat</label>
@@ -268,12 +275,32 @@ const Profile = props => {
                 loading={phaseSaving}
               />
             </div>
+          ) : (
+            <Biometrics />
           )}
         </div>
       ) : (
         <Loading />
       )}
     </main>
+  );
+};
+
+const Biometrics = props => {
+  const [date, setDate] = useState(new Date());
+  const [weight, setWeight] = useState('');
+
+  return (
+    <div className='biometrics'>
+      <DayPickerInput onDayChange={setDate} />
+      <Input
+        label={{ basic: true, content: 'kg' }}
+        labelPosition='right'
+        placeholder='Enter weight...'
+        value={weight}
+        onChange={(e, { value }) => setWeight(value)}
+      />
+    </div>
   );
 };
 

@@ -56,7 +56,11 @@
       }
     }
 
-    button {
+    .biometrics {
+      width: 100%;
+    }
+
+    > button {
       margin-bottom: 20px;
     }
   }
