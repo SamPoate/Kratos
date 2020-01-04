@@ -88,9 +88,11 @@ const WorkoutCreator = () => {
       uuid: uuid(),
       name: '',
       sets: '',
+      reps: '',
       percent: '',
       weight: ''
     };
+
     let newData = update(workoutData, {
       $merge: {
         ['week_' + dict[week]]: {
@@ -285,6 +287,7 @@ const FormGroup = ({ onChange, data, removeWorkoutGroup }) => {
         name: name ? name : '',
         reps: reps ? reps : '',
         sets: sets ? sets : '',
+        total: reps && sets ? sets * reps : 0,
         percent: percent ? percent : '',
         weight: weight ? weight : ''
       };
