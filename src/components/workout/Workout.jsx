@@ -179,7 +179,12 @@ const Table = ({
             <div className='cell'>
               {calcWeight(r) ? (
                 <>
-                  <span>{calcWeight(r)}</span> Weight/RPE
+                  <span>
+                    {typeof calcWeight(r) === 'string'
+                      ? calcWeight(r)
+                      : calcWeight(r).toFixed(2)}
+                  </span>{' '}
+                  Weight/RPE
                 </>
               ) : null}
             </div>

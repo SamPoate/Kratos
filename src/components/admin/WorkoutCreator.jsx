@@ -287,10 +287,12 @@ const FormGroup = ({ onChange, data, removeWorkoutGroup }) => {
         name: name ? name : '',
         reps: reps ? reps : '',
         sets: sets ? sets : '',
-        total: reps && sets ? sets * reps : 0,
+        total: reps && sets ? reps * sets : '',
         percent: percent ? percent : '',
         weight: weight ? weight : ''
       };
+
+      console.log(workoutObj);
 
       onChange(workoutObj, data.uuid);
     }
