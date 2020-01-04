@@ -139,7 +139,8 @@ const Table = ({
   };
 
   const calcVolume = data => {
-    const total = data.weight * data.total;
+    const dataTotal = data.total ? data.total : data.sets * data.reps;
+    const total = parseFloat(data.weight) * parseFloat(dataTotal);
 
     return total ? parseFloat(total.toFixed(2)) : '';
   };
