@@ -21,6 +21,7 @@ const Profile = props => {
   useFirestoreConnect('WORKOUT_PROGRAMS');
 
   useEffect(() => {
+    let localDate = Infinity;
     if (props.profile.weights) {
       const dates = Object.keys(props.profile.weights);
 
@@ -28,17 +29,18 @@ const Profile = props => {
         const diff = moment().diff(date);
 
         if (diff < closestDate) {
+          localDate = date;
           setClosestDate(date);
         }
       });
     }
 
-    if (closestDate !== Infinity) {
-      setSquat(props.profile.weights[closestDate].squat);
-      setBench(props.profile.weights[closestDate].bench);
-      setDeadLift(props.profile.weights[closestDate].deadLift);
+    if (localDate !== Infinity) {
+      setSquat(props.profile.weights[localDate].squat);
+      setBench(props.profile.weights[localDate].bench);
+      setDeadLift(props.profile.weights[localDate].deadLift);
     }
-  }, [props.profile, closestDate]);
+  }, [props.profile.weights, closestDate]);
 
   useEffect(() => {
     const getData = () => {
@@ -55,7 +57,7 @@ const Profile = props => {
     };
 
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, []);
 
   const numberWithCommas = x => {
@@ -133,7 +135,7 @@ const Profile = props => {
 
   calcTotals();
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const data = {
       weights: {
         [moment().format()]: {
@@ -144,7 +146,7 @@ const Profile = props => {
       }
     };
 
-    props.firebase.updateProfile(data);
+    await props.firebase.updateProfile(data);
   };
 
   const onChangePhase = value => {
@@ -161,7 +163,7 @@ const Profile = props => {
     return <h1 className='admin-approval'>Awaiting Approval</h1>;
   }
 
-  if (!props.phase) {
+  if (!props.phase || props.phase === 'PHASE_THREE') {
     const data = {
       set_phase: 'PHASE_ONE'
     };
@@ -265,12 +267,12 @@ const Profile = props => {
                     key: 'phaseOne',
                     text: 'Phase One',
                     value: 'PHASE_ONE'
-                  },
-                  {
-                    key: 'phaseThree',
-                    text: 'Phase Three',
-                    value: 'PHASE_THREE'
                   }
+                  // {
+                  //   key: 'phaseThree',
+                  //   text: 'Phase Three',
+                  //   value: 'PHASE_THREE'
+                  // }
                 ]}
                 loading={phaseSaving}
               />
