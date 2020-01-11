@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withFirebase, useFirestoreConnect } from 'react-redux-firebase';
@@ -7,8 +7,9 @@ import Loading from '../layout/Loading';
 import moment from 'moment';
 import { Menu, Dropdown, Input } from 'semantic-ui-react';
 import { capitalize } from '../../helpers/formatters';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
+import * as Pikaday from 'pikaday';
+import 'pikaday/css/pikaday.css';
+import { Line } from 'react-chartjs-2';
 
 const Profile = props => {
   const [squat, setSquat] = useState('0');
@@ -289,12 +290,76 @@ const Profile = props => {
 };
 
 const Biometrics = props => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(moment().format('DD MMM YYYY'));
   const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const picker = useRef();
+
+  useLayoutEffect(() => {
+    picker.current = new Pikaday({
+      field: document.getElementById('date_picker'),
+      format: 'DD MMM YYYY',
+      maxDate: moment().toDate(),
+      theme: 'custom-pikaday-theme'
+    });
+
+    return () => {
+      picker.current.destroy();
+    };
+  }, [picker]);
+
+  const data = {
+    labels: [
+      moment().format('DD MMM YYYY'),
+      moment()
+        .add(1, 'days')
+        .format('DD MMM YYYY'),
+      moment()
+        .add(2, 'days')
+        .format('DD MMM YYYY'),
+      moment()
+        .add(4, 'days')
+        .format('DD MMM YYYY'),
+      moment()
+        .add(4, 'days')
+        .format('DD MMM YYYY'),
+      moment()
+        .add(4, 'days')
+        .format('DD MMM YYYY'),
+      moment()
+        .add(4, 'days')
+        .format('DD MMM YYYY')
+    ],
+    datasets: [
+      {
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        borderColor: '#00c3ff',
+        data: [75, 78, 78, 75, 72, 77, 79]
+      }
+    ]
+  };
+
+  const options = {
+    legend: {
+      display: false
+    },
+    tooltips: {
+      titleFontSize: 12,
+      xPadding: 10,
+      yPadding: 10,
+      titleMarginBottom: 10
+    }
+  };
+
+  const save = () => {};
 
   return (
     <div className='biometrics'>
-      <DayPickerInput onDayChange={setDate} />
+      <Input
+        id='date_picker'
+        value={date}
+        onChange={(e, { value }) => setDate(value)}
+      />
       <Input
         label={{ basic: true, content: 'kg' }}
         labelPosition='right'
@@ -302,6 +367,15 @@ const Biometrics = props => {
         value={weight}
         onChange={(e, { value }) => setWeight(value)}
       />
+      <Input
+        label={{ basic: true, content: 'cm' }}
+        labelPosition='right'
+        placeholder='Enter height...'
+        value={height}
+        onChange={(e, { value }) => setHeight(value)}
+      />
+      <button onClick={save}>Save</button>
+      <Line data={data} options={options} width={350} height={300} />
     </div>
   );
 };

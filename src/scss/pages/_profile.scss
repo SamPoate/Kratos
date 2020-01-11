@@ -57,7 +57,18 @@
     }
 
     .biometrics {
+      display: flex;
+      flex-direction: column;
       width: 100%;
+
+      > div {
+        width: 50%;
+        margin-bottom: 20px;
+      }
+
+      .chartjs-render-monitor {
+        margin: 20px 0;
+      }
     }
 
     > button {

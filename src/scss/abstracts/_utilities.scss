@@ -64,3 +64,14 @@ button {
   border: 1px solid $primaryColor;
   border-radius: 5px;
 }
+
+.custom-pikaday-theme {
+  abbr[title] {
+    text-decoration: none;
+  }
+
+  .pika-button {
+    box-shadow: none;
+    text-align: center;
+  }
+}
