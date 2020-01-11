@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './helpers/PrivateRoute';
 import AdminRoute from './helpers/AdminRoute';
 import 'semantic-ui-css/semantic.min.css';
+import * as Sentry from '@sentry/browser';
 
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { Provider } from 'react-redux';
@@ -20,6 +21,10 @@ import About from './components/about/About';
 import Register from './components/auth/Register';
 
 function App() {
+  Sentry.init({
+    dsn: 'https://60f459282de9436c935535a18e73c21f@sentry.io/1878242'
+  });
+
   return (
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
