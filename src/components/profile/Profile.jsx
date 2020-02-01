@@ -260,12 +260,12 @@ const Profile = props => {
                     key: 'phaseOne',
                     text: 'Phase One',
                     value: 'PHASE_ONE'
+                  },
+                  {
+                    key: 'phaseTwo',
+                    text: 'Phase Two',
+                    value: 'PHASE_TWO'
                   }
-                  // {
-                  //   key: 'phaseThree',
-                  //   text: 'Phase Three',
-                  //   value: 'PHASE_THREE'
-                  // }
                 ]}
                 loading={phaseSaving}
               />
