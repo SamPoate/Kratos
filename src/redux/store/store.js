@@ -10,6 +10,12 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/functions';
 
+// if (!window.location.href.includes('http://localhost/')) {
+Sentry.init({
+    dsn: 'https://60f459282de9436c935535a18e73c21f@sentry.io/1878242'
+});
+// }
+
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -34,7 +40,9 @@ const rrfConfig = {
 
 const middleware = [
     thunk.withExtraArgument({ getFirebase }),
-    createSentryMiddleware(Sentry)
+    createSentryMiddleware(Sentry, {
+        getUserContext: state => state.firebase.auth
+    })
 ];
 export const store = createStore(
     rootReducer,

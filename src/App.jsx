@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './helpers/PrivateRoute';
 import AdminRoute from './helpers/AdminRoute';
 import 'semantic-ui-css/semantic.min.css';
-import * as Sentry from '@sentry/browser';
 
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { Provider } from 'react-redux';
@@ -20,54 +19,48 @@ import AdminArea from './components/admin/AdminArea';
 import About from './components/about/About';
 import Register from './components/auth/Register';
 
-const App = () => {
-    Sentry.init({
-        dsn: 'https://60f459282de9436c935535a18e73c21f@sentry.io/1878242'
-    });
-
-    return (
-        <Provider store={store}>
-            <ReactReduxFirebaseProvider {...rrfProps}>
-                <Router>
-                    <div className='App'>
-                        <Navbar />
-                        <div className='container'>
-                            <Switch>
-                                <Route exact path='/' component={Home} />
-                                <Route exact path='/about' component={About} />
-                                <PrivateRoute
-                                    exact
-                                    path='/workout'
-                                    component={Workout}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/profile'
-                                    component={Profile}
-                                />
-                                <AdminRoute
-                                    exact
-                                    path='/admin-area'
-                                    component={AdminArea}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/logout'
-                                    component={Logout}
-                                />
-                                <Route exact path='/login' component={Login} />
-                                <Route
-                                    exact
-                                    path='/register'
-                                    component={Register}
-                                />
-                            </Switch>
-                        </div>
+const App = () => (
+    <Provider store={store}>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+            <Router>
+                <div className='App'>
+                    <Navbar />
+                    <div className='container'>
+                        <Switch>
+                            <Route exact path='/' component={Home} />
+                            <Route exact path='/about' component={About} />
+                            <PrivateRoute
+                                exact
+                                path='/workout'
+                                component={Workout}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/profile'
+                                component={Profile}
+                            />
+                            <AdminRoute
+                                exact
+                                path='/admin-area'
+                                component={AdminArea}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/logout'
+                                component={Logout}
+                            />
+                            <Route exact path='/login' component={Login} />
+                            <Route
+                                exact
+                                path='/register'
+                                component={Register}
+                            />
+                        </Switch>
                     </div>
-                </Router>
-            </ReactReduxFirebaseProvider>
-        </Provider>
-    );
-};
+                </div>
+            </Router>
+        </ReactReduxFirebaseProvider>
+    </Provider>
+);
 
 export default App;
