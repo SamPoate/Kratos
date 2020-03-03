@@ -164,7 +164,7 @@ const Profile = props => {
         return <h1 className='admin-approval'>Awaiting Approval</h1>;
     }
 
-    if (!props.phase || props.phase === 'PHASE_THREE') {
+    if (!props.phase) {
         const data = {
             set_phase: 'PHASE_ONE'
         };
