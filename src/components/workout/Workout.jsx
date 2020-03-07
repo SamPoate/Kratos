@@ -15,6 +15,7 @@ const Workout = props => {
         props.phase ? props.phase : 'PHASE_THREE'
     );
     useFirestoreConnect('WORKOUT_PROGRAMS');
+    useFirestoreConnect('settings');
 
     useEffect(() => {
         const getData = () => {
@@ -48,11 +49,14 @@ const Workout = props => {
     };
 
     let data;
-    if (props.data) {
+    if (props.data && props.settings) {
         const weekConvert = `week_${dict[week]}`;
         const dayConvert = `day_${dict[day]}`;
 
-        if (!props.data[phase]) {
+        if (
+            !props.data[phase] ||
+            props.settings.phases[phase.toLowerCase()].active === false
+        ) {
             return <h1 className='admin-approval'>Phase coming soon...</h1>;
         }
 
@@ -272,7 +276,8 @@ const mapStateToProps = state => ({
     profile: state.firebase.profile,
     phase: state.firebase.profile.set_phase,
     isLoaded: state.firebase.profile.isLoaded,
-    data: state.firestore.data.WORKOUT_PROGRAMS
+    data: state.firestore.data.WORKOUT_PROGRAMS,
+    settings: state.firestore.data.settings
 });
 
 export default compose(withFirebase, connect(mapStateToProps, null))(Workout);
