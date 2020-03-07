@@ -16,7 +16,9 @@ const Profile = props => {
     const [closestDate, setClosestDate] = useState(Infinity);
     const [activeItem, setActiveItem] = useState('Home');
     const [phaseSaving, setPhaseSaving] = useState(false);
+    let phaseOptions = [];
     useFirestoreConnect('WORKOUT_PROGRAMS');
+    useFirestoreConnect('settings');
 
     useEffect(() => {
         let localDate = Infinity;
@@ -136,6 +138,16 @@ const Profile = props => {
 
     calcTotals();
 
+    const onChangePhase = value => {
+        setPhaseSaving(true);
+
+        const data = {
+            set_phase: value
+        };
+
+        props.firebase.updateProfile(data).then(() => setPhaseSaving(false));
+    };
+
     const onSubmit = async () => {
         const data = {
             weights: {
@@ -150,16 +162,6 @@ const Profile = props => {
         await props.firebase.updateProfile(data);
     };
 
-    const onChangePhase = value => {
-        setPhaseSaving(true);
-
-        const data = {
-            set_phase: value
-        };
-
-        props.firebase.updateProfile(data).then(() => setPhaseSaving(false));
-    };
-
     if (user === false) {
         return <h1 className='admin-approval'>Awaiting Approval</h1>;
     }
@@ -170,6 +172,52 @@ const Profile = props => {
         };
 
         props.firebase.updateProfile(data);
+    }
+
+    if (!props.settings) return null;
+
+    if (props.settings.phases.phase_one.active) {
+        phaseOptions = [
+            ...phaseOptions,
+            {
+                key: 'phaseOne',
+                text: 'Phase One',
+                value: 'PHASE_ONE'
+            }
+        ];
+    }
+
+    if (props.settings.phases.phase_two.active) {
+        phaseOptions = [
+            ...phaseOptions,
+            {
+                key: 'phaseTwo',
+                text: 'Phase Two',
+                value: 'PHASE_TWO'
+            }
+        ];
+    }
+
+    if (props.settings.phases.phase_three.active) {
+        phaseOptions = [
+            ...phaseOptions,
+            {
+                key: 'phaseThree',
+                text: 'Phase Three',
+                value: 'PHASE_THREE'
+            }
+        ];
+    }
+
+    if (props.settings.phases.phase_four.active) {
+        phaseOptions = [
+            ...phaseOptions,
+            {
+                key: 'phaseFour',
+                text: 'Phase Four',
+                value: 'PHASE_FOUR'
+            }
+        ];
     }
 
     return (
@@ -267,29 +315,11 @@ const Profile = props => {
                                 placeholder='Select Phase'
                                 fluid
                                 selection
+                                value={props.profile.set_phase}
                                 onChange={(e, { value }) =>
                                     onChangePhase(value)
                                 }
-                                defaultValue={
-                                    props.phase ? props.phase : 'PHASE_ONE'
-                                }
-                                options={[
-                                    {
-                                        key: 'phaseOne',
-                                        text: 'Phase One',
-                                        value: 'PHASE_ONE'
-                                    },
-                                    {
-                                        key: 'phaseTwo',
-                                        text: 'Phase Two',
-                                        value: 'PHASE_TWO'
-                                    },
-                                    {
-                                        key: 'phaseThree',
-                                        text: 'Phase Three',
-                                        value: 'PHASE_THREE'
-                                    }
-                                ]}
+                                options={phaseOptions}
                                 loading={phaseSaving}
                             />
                         </div>
@@ -304,6 +334,7 @@ const Profile = props => {
 
 const mapStateToProps = state => ({
     data: state.firestore.data.WORKOUT_PROGRAMS,
+    settings: state.firestore.data.settings,
     phase: state.firebase.profile.set_phase,
     profile: state.firebase.profile,
     displayName: state.firebase.auth.displayName
