@@ -111,6 +111,9 @@
 
             .user-list__row__cell {
                 font-size: 10px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
 
                 &:first-of-type {
                     width: 35%;
@@ -295,22 +298,80 @@
                 }
             }
 
-            .save-button {
+            .save-add-buttons {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
                 position: fixed;
                 bottom: 0;
                 left: 0;
                 width: 100%;
                 padding: 10px 10px 15px;
                 background: #fff;
+                border-top: 1px solid $primaryColor;
 
                 @include tablet {
-                    bottom: 60px;
+                    bottom: 50px;
                 }
 
                 .btn--white-text {
-                    width: 100%;
-                    margin: 0 auto;
+                    width: calc(33% - 10px);
+                    margin-left: 0;
                 }
+            }
+        }
+    }
+
+    .workout-editor {
+        width: 100%;
+
+        .workout-editor__row-container {
+            padding-bottom: 20px;
+
+            .workout-editor__row {
+                padding: 5px;
+                margin-bottom: 10px;
+                background: #f1fffb;
+                border: 1px solid $primaryColor;
+                border-radius: 3px;
+
+                h3 {
+                    font-weight: 700;
+                }
+
+                .form-input {
+                    margin-bottom: 5px;
+
+                    label {
+                        font-size: 16px;
+                    }
+
+                    input {
+                        background: #f1fffb;
+                    }
+                }
+            }
+        }
+
+        .workout-editor__buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 10px 0;
+            background: #fff;
+            border-top: 1px solid $primaryColor;
+
+            @include tablet {
+                bottom: 65px;
+            }
+
+            button {
+                width: calc(33% - 10px);
+                margin-left: 0;
             }
         }
     }

@@ -9,14 +9,18 @@ import {
 import { Checkbox } from 'semantic-ui-react';
 
 import WorkoutCreator from './WorkoutCreator';
+import EditWorkout from './EditWorkout';
 
 const AdminArea = props => {
     const [adminEmail, setAdminEmail] = useState('');
     const [addAdminResponse, setAddAdminResponse] = useState('');
+    const [workoutData, setWorkoutData] = useState({});
+    const [workoutInformation, setWorkoutInformation] = useState({});
     const [userList, setUserList] = useState([]);
     const [userManager, setUserManager] = useState(false);
     const [user, setUser] = useState({});
     const [activeTab, setActiveTab] = useState(1);
+
     const getUsers = props.firebase.functions().httpsCallable('getUserList');
     useFirestoreConnect('settings');
     const firestore = useFirestore();
@@ -101,11 +105,15 @@ const AdminArea = props => {
             break;
 
         case 3:
-            AdminPanel = WorkoutCreator;
+            AdminPanel = Settings;
             break;
 
         case 4:
-            AdminPanel = Settings;
+            AdminPanel = WorkoutCreator;
+            break;
+
+        case 5:
+            AdminPanel = EditWorkout;
             break;
 
         default:
@@ -120,8 +128,11 @@ const AdminArea = props => {
                 <div className='admin-nav'>
                     <button onClick={() => setActiveTab(1)}>User List</button>
                     {/* <button onClick={() => setActiveTab(2)}>Add Admin</button> */}
-                    <button onClick={() => setActiveTab(3)}>Data Upload</button>
-                    <button onClick={() => setActiveTab(4)}>Settings</button>
+                    <button onClick={() => setActiveTab(3)}>Settings</button>
+                    <button onClick={() => setActiveTab(4)}>Data Upload</button>
+                    <button onClick={() => setActiveTab(5)}>
+                        Workout Info
+                    </button>
                 </div>
                 <AdminPanel
                     userManager={userManager}
@@ -136,7 +147,11 @@ const AdminArea = props => {
                     setAdminEmail={setAdminEmail}
                     addAdmin={addAdmin}
                     addAdminResponse={addAdminResponse}
+                    workoutData={workoutData}
+                    setWorkoutData={setWorkoutData}
                     settings={props.settings}
+                    workoutInformation={workoutInformation}
+                    setWorkoutInformation={setWorkoutInformation}
                     firestore={firestore}
                 />
             </div>
